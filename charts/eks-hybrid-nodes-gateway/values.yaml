@@ -14,7 +14,8 @@ replicas: 2
 # -- Node label key used to select gateway nodes
 nodeLabel: hybrid-gateway-node
 
-# -- VPC CIDR for route programming (REQUIRED)
+# -- Comma-separated VPC CIDRs for VTEP route programming. Supports multiple blocks.
+# Example: "10.0.0.0/16,10.1.0.0/16"
 vpcCIDR: ""
 # -- Comma-separated pod CIDRs used by Cilium on hybrid nodes (REQUIRED)
 podCIDRs: ""
@@ -26,3 +27,21 @@ autoMode:
   # -- Enable Auto Mode (adds compute-type nodeSelector, zero-downtime strategy).
   # Set to false for Managed Node Groups.
   enabled: true
+
+# -- Extra tolerations to add to the gateway pods.
+# The nodeLabel taint (key: <nodeLabel>, effect: NoSchedule) is always added automatically.
+# Use this to add additional tolerations if your gateway nodes have extra taints.
+# Example:
+#   extraTolerations:
+#     - key: dedicated
+#       operator: Equal
+#       value: hybrid-gateway
+#       effect: NoSchedule
+extraTolerations: []
+
+# -- Extra node selector labels to add to the gateway pods.
+# The nodeLabel selector is always added automatically.
+# Example:
+#   extraNodeSelector:
+#     dedicated: hybrid-gateway
+extraNodeSelector: {}
